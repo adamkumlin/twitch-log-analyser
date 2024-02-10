@@ -1,17 +1,23 @@
 import { useState } from "react";
-import Settings from "./components/Settings";
 import LogFile from "./components/LogFile";
+import UploadSection from "./components/UploadSection";
 
 const App: React.FC = () => {
-
+  const [logFile, setLogFile] = useState<File | null>(null);
   const [logFileText, setLogFileText] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   return (
     <div className="App text-center bg-slate-900 text-white p-4">
-      <h1 className="font-mono text-5xl">Twitch Log Analyser</h1>
-      <Settings setLogFileText={setLogFileText}/>
+      <h1 className="font-mono text-5xl">Upload file</h1>
+      <UploadSection
+        logFile={logFile}
+        setLogFile={setLogFile}
+        setLogFileText={setLogFileText}
+        setIsLoading={setIsLoading}
+      />
 
-      {logFileText !== "" ? <LogFile logFile={logFileText}/> : null}
+      {logFileText !== "" ? <LogFile logFileText={logFileText} /> : null}
     </div>
   );
 };
