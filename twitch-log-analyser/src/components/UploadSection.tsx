@@ -24,18 +24,20 @@ const UploadSection: React.FC<UploadSectionProps> = ({
   }
 
   return (
-    <div className="UploadSection flex flex-row justify-evenly mt-8">
-      <div>
+    <div className="UploadSection flex flex-row justify-evenly mt-48">
+      <div className="bg-gradient-to-b from-fuchsia-700 to-indigo-500 border-2 border-white border-dashed rounded-xl h-80 w-80">
         <input
-          className="bg-gradient-to-b from-fuchsia-700 to-indigo-500"
+          className="opacity-0 w-full h-full"
           type="file"
           onInput={(e) => handleFileInput(e)}
         />
-          <h2>Drag files here</h2>
-          <h3>or</h3>
-          <h2>Click to upload</h2>
-
+        <div className="relative bottom-52 pointer-events-none">
+          <h2 className="font-bold text-3xl">Drag files here</h2>
+          <h3 className="font-normal text-gray-300 font-mono">or</h3>
+          <h2 className="font-bold text-3xl">Click to upload</h2>
+        </div>
       </div>
+      <li className="bg-white w-0.5 list-none" aria-hidden="true" role="presentation"></li>
       <UploadedFile logFile={logFile} />
     </div>
   );

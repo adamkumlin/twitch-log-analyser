@@ -7,7 +7,7 @@ const App: React.FC = () => {
   const [logFileText, setLogFileText] = useState<string>("");
 
   return (
-    <div className="App text-center bg-slate-900 text-white p-4">
+    <div className="App text-center text-white p-4 overflow-x-hidden min-h-full">
       <h1 className="font-mono text-5xl">Upload file</h1>
       <UploadSection
         logFile={logFile}
