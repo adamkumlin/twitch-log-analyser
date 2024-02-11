@@ -4,18 +4,15 @@ interface UploadSectionProps {
   logFile: File | null;
   setLogFile: React.Dispatch<React.SetStateAction<File | null>>;
   setLogFileText: React.Dispatch<React.SetStateAction<string>>;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const UploadSection: React.FC<UploadSectionProps> = ({
   logFile,
   setLogFile,
   setLogFileText,
-  setIsLoading
 }) => {
   function handleFileInput(e: React.FormEvent<HTMLInputElement>) {
     e.preventDefault();
-    setIsLoading(true);
     setLogFile(e.target.files[0]);
 
     const reader = new FileReader();
@@ -27,15 +24,18 @@ const UploadSection: React.FC<UploadSectionProps> = ({
   }
 
   return (
-    <div className="UploadSection">
-      <form className="flex flex-row justify-center p-12">
+    <div className="UploadSection flex flex-row justify-evenly mt-8">
+      <div>
         <input
-          className=""
+          className="bg-gradient-to-b from-fuchsia-700 to-indigo-500"
           type="file"
-          id="search"
           onInput={(e) => handleFileInput(e)}
         />
-      </form>
+          <h2>Drag files here</h2>
+          <h3>or</h3>
+          <h2>Click to upload</h2>
+
+      </div>
       <UploadedFile logFile={logFile} />
     </div>
   );

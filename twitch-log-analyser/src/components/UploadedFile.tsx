@@ -13,17 +13,14 @@ const UploadedFile: React.FC<UploadedFileProps> = ({ logFile }) => {
     minute: "2-digit",
   });
 
-  if (logFile) {
-      return (
-        <div className="UploadedFile rounded-lg ">
-          <h2>{logFile.name}</h2>
-          <p>{uploadDateTime}</p>
-          <p>{Math.round(logFile.size / 1000) + " KB"}</p>
-        </div>
-      );
-  } else {
-    return null;
-  }
+  return (
+    <div className="UploadedFile">
+      <h2>{logFile ? logFile.name : null}</h2>
+      <p>{logFile ? uploadDateTime : null}</p>
+      <p>{logFile ? Math.round(logFile.size / 1000) + " KB" : null}</p>
+      <img src="/file-background.png" alt="" />
+    </div>
+  );
 };
 
 export default UploadedFile;

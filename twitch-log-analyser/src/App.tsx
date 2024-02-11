@@ -5,7 +5,6 @@ import UploadSection from "./components/UploadSection";
 const App: React.FC = () => {
   const [logFile, setLogFile] = useState<File | null>(null);
   const [logFileText, setLogFileText] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   return (
     <div className="App text-center bg-slate-900 text-white p-4">
@@ -14,7 +13,6 @@ const App: React.FC = () => {
         logFile={logFile}
         setLogFile={setLogFile}
         setLogFileText={setLogFileText}
-        setIsLoading={setIsLoading}
       />
 
       {logFileText !== "" ? <LogFile logFileText={logFileText} /> : null}

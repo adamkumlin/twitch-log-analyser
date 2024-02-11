@@ -26,12 +26,13 @@ const LogFile: React.FC<LogFileProps> = ({ logFileText }) => {
     }
   }
 
-  let splitText = logs.split("\n");
+  const splitText: string[] = logs.split("\n").filter(text => text !== "");
+  // Split string by newline character, remove empty values
 
   return (
-    <div className="LogFile text-left overflow-auto">
-      {splitText.map((line) => (
-        <p>{line}</p>
+    <div className="LogFile text-left">
+      {splitText.map((line, index) => (
+        <p key={index}>{line}</p>
       ))}
     </div>
   );
