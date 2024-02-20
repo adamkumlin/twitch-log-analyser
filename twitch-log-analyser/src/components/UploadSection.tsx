@@ -11,16 +11,15 @@ const UploadSection: React.FC<UploadSectionProps> = ({
   setLogFile,
   setLogFileText,
 }) => {
-  function handleFileInput(e: React.FormEvent<HTMLInputElement>) {
-    e.preventDefault();
-    setLogFile(e.target.files[0]);
+
+  function readFileText() {
 
     const reader = new FileReader();
 
     reader.onload = (ev) => {
       setLogFileText(ev.target.result);
     };
-    reader.readAsText(e.target.files[0]);
+    reader.readAsText(logFile);
   }
 
   return (
@@ -29,13 +28,14 @@ const UploadSection: React.FC<UploadSectionProps> = ({
         <input
           className="opacity-0 w-full h-full"
           type="file"
-          onInput={(e) => handleFileInput(e)}
+          onInput={(e) => setLogFile(e.target.files[0])}
         />
         <div className="relative bottom-52 pointer-events-none">
           <h2 className="font-bold text-3xl">Drag files here</h2>
           <h3 className="font-normal text-gray-300 font-mono">or</h3>
           <h2 className="font-bold text-3xl">Click to upload</h2>
         </div>
+        <input className="bg-slate-300 text-black rounded-sm p-2" type="button" value="Upload" onClick={readFileText}/>
       </div>
       <li className="bg-white w-0.5 list-none" aria-hidden="true" role="presentation"></li>
       <UploadedFile logFile={logFile} />

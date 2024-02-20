@@ -1,7 +1,7 @@
 import UploadedFile from "./UploadedFile";
 
 interface SearchHeadingProps {
-    logFile: File;
+    logFile: File | null;
 }
 
 const SearchHeading: React.FC<SearchHeadingProps> = ({logFile}) => {
