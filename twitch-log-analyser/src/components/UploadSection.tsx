@@ -38,7 +38,7 @@ const UploadSection: React.FC<UploadSectionProps> = ({
         <input className="bg-slate-300 text-black rounded-sm p-2" type="button" value="Upload" onClick={readFileText}/>
       </div>
       <li className="bg-white w-0.5 list-none" aria-hidden="true" role="presentation"></li>
-      <UploadedFile logFile={logFile} />
+      <UploadedFile logFile={logFile} image="/file-background.png" style="relative -top-64 text-black" titleOnly={false}/>
     </div>
   );
 };

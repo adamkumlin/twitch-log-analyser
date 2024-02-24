@@ -19,8 +19,8 @@ const App: React.FC = () => {
 
   return (
     <div className="App text-center text-white p-4 overflow-x-hidden min-h-full">
-      <h1 className="font-mono text-5xl">
-        {!logFileText ? "Upload file" : "Search"}
+      <h1 className="font-mono text-5xl mb-8">
+        {!logFileText ? "Upload file" : "Analyse"}
       </h1>
       {!logFileText ? (
         <UploadSection
@@ -29,7 +29,7 @@ const App: React.FC = () => {
           setLogFileText={setLogFileText}
         />
       ) : null}
-
+      {logFileText !== "" ? <SearchHeading logFile={logFile} /> : null}
       {logFileText !== "" ? (
         <SearchTools
           searchQuery={searchQuery}
