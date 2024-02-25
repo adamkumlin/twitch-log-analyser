@@ -1,15 +1,30 @@
 import type { SearchMetric } from "../types";
 
 interface SearchFilterProps {
+  searchQuery: {
+    query: string;
+    metric: SearchMetric;
+  };
   setSearchQuery: React.Dispatch<
     React.SetStateAction<{
       query: string;
       metric: SearchMetric;
     }>
   >;
+  filterLogs: (logs: string[], query: string, metric: SearchMetric) => void;
+  logs: string[] | null;
 }
 
-const SearchFilter: React.FC<SearchFilterProps> = ({ setSearchQuery }) => {
+const SearchFilter: React.FC<SearchFilterProps> = ({
+  searchQuery,
+  setSearchQuery,
+  filterLogs,
+  logs,
+}) => {
+  function handleSearch(e: React.MouseEvent<HTMLInputElement, MouseEvent>) {
+    e.preventDefault();
+    filterLogs(logs, searchQuery.query, searchQuery.metric);
+  }
   return (
     <div className="SearchFilter ">
       <label htmlFor="search">Search</label>
@@ -36,6 +51,12 @@ const SearchFilter: React.FC<SearchFilterProps> = ({ setSearchQuery }) => {
           <option value={"message"}>Message</option>
         </select>
       </div>
+      <input
+        className="bg-slate-400 text-black"
+        type="submit"
+        value="Search"
+        onClick={(e) => handleSearch(e)}
+      />
     </div>
   );
 };

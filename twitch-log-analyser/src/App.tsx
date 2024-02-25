@@ -1,7 +1,7 @@
 import { useState } from "react";
 import LogFile from "./components/LogFile";
 import UploadSection from "./components/UploadSection";
-import SearchTools from "./components/SearchTools";
+import AnalysisTools from "./components/AnalysisTools";
 import type { SearchMetric } from "./types";
 
 const App: React.FC = () => {
@@ -67,7 +67,7 @@ const App: React.FC = () => {
         />
       ) : null}
       {logFileText !== "" ? (
-        <SearchTools
+        <AnalysisTools
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           filterLogs={filterLogs}
