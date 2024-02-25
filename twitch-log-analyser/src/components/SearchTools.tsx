@@ -12,22 +12,34 @@ interface SearchToolsProps {
       metric: SearchMetric;
     }>
   >;
+  filterLogs: (
+    logs: string[],
+    query: string,
+    metric: SearchMetric
+  ) => void;
+  logs: string[] | null;
 }
 
 const SearchTools: React.FC<SearchToolsProps> = ({
   searchQuery,
   setSearchQuery,
+  filterLogs,
+  logs
 }) => {
-
-    function handleSearch(e: React.MouseEvent<HTMLInputElement, MouseEvent>) {
-        e.preventDefault();
-        console.log(searchQuery)
-    }
+  function handleSearch(e: React.MouseEvent<HTMLInputElement, MouseEvent>) {
+    e.preventDefault();
+    filterLogs(logs, searchQuery.query, searchQuery.metric);
+  }
   return (
     <div className="SearchTools">
       <form>
         <SearchFilter setSearchQuery={setSearchQuery} />
-        <input className="bg-slate-400 text-black" type="submit" value="Search" onClick={(e) => handleSearch(e)}/>
+        <input
+          className="bg-slate-400 text-black"
+          type="submit"
+          value="Search"
+          onClick={(e) => handleSearch(e)}
+        />
       </form>
     </div>
   );
