@@ -2,8 +2,6 @@ import { useState } from "react";
 import LogFile from "./components/LogFile";
 import UploadSection from "./components/UploadSection";
 import SearchTools from "./components/SearchTools";
-import SearchHeading from "./components/SearchHeading";
-import UploadedFile from "./components/UploadedFile";
 import type { SearchMetric } from "./types";
 
 const App: React.FC = () => {
@@ -19,7 +17,7 @@ const App: React.FC = () => {
 
   return (
     <div className="App text-center text-white p-4 overflow-x-hidden min-h-full">
-      <h1 className="font-mono text-5xl mb-8">
+      <h1 className="font-mono text-5xl mb-16">
         {!logFileText ? "Upload file" : "Analyse"}
       </h1>
       {!logFileText ? (
@@ -29,7 +27,6 @@ const App: React.FC = () => {
           setLogFileText={setLogFileText}
         />
       ) : null}
-      {logFileText !== "" ? <SearchHeading logFile={logFile} /> : null}
       {logFileText !== "" ? (
         <SearchTools
           searchQuery={searchQuery}
@@ -37,7 +34,7 @@ const App: React.FC = () => {
         />
       ) : null}
 
-      {logFileText !== "" ? <LogFile logFileText={logFileText} /> : null}
+      {logFileText !== "" ? <LogFile logFileText={logFileText} searchQuery={searchQuery}/> : null}
     </div>
   );
 };
