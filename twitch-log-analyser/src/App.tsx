@@ -2,32 +2,33 @@ import { useState } from "react";
 import LogFile from "./components/LogFile";
 import UploadSection from "./components/UploadSection";
 import AnalysisTools from "./components/AnalysisTools";
-import type { SearchMetric } from "./types";
+import type { SearchQuery, LogSettings, LogFile as LogFileT } from "./types";
 
 const App: React.FC = () => {
-  const [logFile, setLogFile] = useState<File | null>(null);
-  const [logFileText, setLogFileText] = useState<string>("");
-  const [searchQuery, setSearchQuery] = useState<{
-    query: string;
-    metric: SearchMetric;
-  }>({
+  const [logFile, setLogFile] = useState<LogFileT>({
+    file: null,
+    text: "",
+  });
+  const [searchQuery, setSearchQuery] = useState<SearchQuery>({
     query: "",
     metric: "user",
   });
   const [logs, setLogs] = useState<string[] | null>(null);
-
+  const [logSettings, setLogSettings] = useState<LogSettings>({
+    showModActions: false,
+    showTimestamps: true,
+  });
   function filterLogs(
     logs: string[] | null,
-    query: string,
-    metric: SearchMetric
+    searchQuery: SearchQuery
   ): void {
     let filteredLogs: string[] = [];
 
-    if (!query || !metric || !logs) {
+    if (!searchQuery.query || !searchQuery.metric || !logs) {
       return;
     }
 
-    if (metric === "user") {
+    if (searchQuery.metric === "user") {
       for (let log of logs) {
         // Split into timestamp, username and rest of message, get the username and half of a timestamp, split again and grab the username
         const userName: string = log
@@ -36,7 +37,7 @@ const App: React.FC = () => {
           .slice(-1)
           .toString();
 
-        if (userName && userName.includes(query)) {
+        if (userName && userName.includes(searchQuery.query)) {
           filteredLogs.push(log);
         }
       }
@@ -46,7 +47,7 @@ const App: React.FC = () => {
         const logDetails = log.split(":").slice(0, 3).join();
 
         // If log includes query starting from the timestamp and username, i.e. the message plus one to account for the colon
-        if (log.includes(query, logDetails.length + 1)) {
+        if (log.includes(searchQuery.query, logDetails.length + 1)) {
           filteredLogs.push(log);
         }
       }
@@ -57,26 +58,24 @@ const App: React.FC = () => {
   return (
     <div className="App text-center text-white p-4 overflow-x-hidden min-h-full">
       <h1 className="font-mono text-5xl mb-16">
-        {!logFileText ? "Upload file" : "Analyse"}
+        {!logFile.text ? "Upload file" : "Analyse"}
       </h1>
-      {!logFileText ? (
-        <UploadSection
-          logFile={logFile}
-          setLogFile={setLogFile}
-          setLogFileText={setLogFileText}
-        />
+      {!logFile.text ? (
+        <UploadSection logFile={logFile} setLogFile={setLogFile} />
       ) : null}
-      {logFileText !== "" ? (
+      {logFile.text !== "" ? (
         <AnalysisTools
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           filterLogs={filterLogs}
           logs={logs}
+          logSettings={logSettings}
+          setLogSettings={setLogSettings}
         />
       ) : null}
 
-      {logFileText !== "" ? (
-        <LogFile logFileText={logFileText} logs={logs} setLogs={setLogs} />
+      {logFile.text !== "" ? (
+        <LogFile logFile={logFile} logs={logs} setLogs={setLogs} />
       ) : null}
     </div>
   );

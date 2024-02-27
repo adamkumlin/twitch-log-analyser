@@ -1,25 +1,25 @@
+import type { LogFile } from "../types";
 import UploadedFile from "./UploadedFile";
 
 interface UploadSectionProps {
-  logFile: File | null;
-  setLogFile: React.Dispatch<React.SetStateAction<File | null>>;
-  setLogFileText: React.Dispatch<React.SetStateAction<string>>;
+  logFile: LogFile;
+  setLogFile: React.Dispatch<React.SetStateAction<LogFile>>;
 }
 
 const UploadSection: React.FC<UploadSectionProps> = ({
   logFile,
   setLogFile,
-  setLogFileText,
 }) => {
-
   function readFileText() {
-
     const reader = new FileReader();
 
     reader.onload = (ev) => {
-      setLogFileText(ev.target.result);
+      setLogFile((current) => ({
+        ...current,
+        text: ev.target.result,
+      }));
     };
-    reader.readAsText(logFile);
+    reader.readAsText(logFile.file as Blob);
   }
 
   return (
@@ -28,17 +28,31 @@ const UploadSection: React.FC<UploadSectionProps> = ({
         <input
           className="opacity-0 w-full h-full"
           type="file"
-          onInput={(e) => setLogFile(e.target.files[0])}
+          onInput={(e) =>
+            setLogFile((current) => ({ ...current, file: e.target.files[0] }))
+          }
         />
         <div className="relative bottom-52 pointer-events-none">
           <h2 className="font-bold text-3xl">Drag files here</h2>
           <h3 className="font-normal text-gray-300 font-mono">or</h3>
           <h2 className="font-bold text-3xl">Click to upload</h2>
         </div>
-        <input className="bg-slate-300 text-black rounded-sm p-2" type="button" value="Upload" onClick={readFileText}/>
+        <input
+          className="bg-slate-300 text-black rounded-sm p-2"
+          type="button"
+          value="Upload"
+          onClick={readFileText}
+        />
       </div>
-      <li className="bg-white w-0.5 list-none" aria-hidden="true" role="presentation"></li>
-      <UploadedFile logFile={logFile} image="/file-background.png" style="relative -top-64 text-black"/>
+      <li
+        className="bg-white w-0.5 list-none"
+        aria-hidden="true"
+        role="presentation"></li>
+      <UploadedFile
+        logFile={logFile.file}
+        image="/file-background.png"
+        style="relative -top-64 text-black"
+      />
     </div>
   );
 };

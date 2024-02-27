@@ -1,17 +1,12 @@
-import type { SearchMetric } from "../types";
+import type { SearchMetric, SearchQuery } from "../types";
 
 interface SearchFilterProps {
-  searchQuery: {
-    query: string;
-    metric: SearchMetric;
-  };
-  setSearchQuery: React.Dispatch<
-    React.SetStateAction<{
-      query: string;
-      metric: SearchMetric;
-    }>
-  >;
-  filterLogs: (logs: string[], query: string, metric: SearchMetric) => void;
+  searchQuery: SearchQuery;
+  setSearchQuery: React.Dispatch<React.SetStateAction<SearchQuery>>;
+  filterLogs: (
+    logs: string[] | null,
+    searchQuery: SearchQuery
+  ) => void;
   logs: string[] | null;
 }
 
@@ -23,7 +18,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
 }) => {
   function handleSearch(e: React.MouseEvent<HTMLInputElement, MouseEvent>) {
     e.preventDefault();
-    filterLogs(logs, searchQuery.query, searchQuery.metric);
+    filterLogs(logs, searchQuery);
   }
   return (
     <div className="SearchFilter ">

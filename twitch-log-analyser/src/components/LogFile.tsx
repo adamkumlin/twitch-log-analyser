@@ -1,37 +1,38 @@
 import { useEffect } from "react";
+import type { LogFile } from "../types";
 
 interface LogFileProps {
-  logFileText: string;
+  logFile: LogFile;
   logs: string[] | null;
   setLogs: React.Dispatch<React.SetStateAction<string[] | null>>;
 }
 
 const LogFile: React.FC<LogFileProps> = ({
-  logFileText,
+  logFile,
   logs,
   setLogs,
 }) => {
   useEffect(() => {
     let logString: string = "";
 
-    let logFileTextLength = logFileText.length;
+    let logFileTextLength = logFile.text.length;
 
     for (let i = 0; i < logFileTextLength; i++) {
       if (
-        logFileText[i] === "[" &&
-        !isNaN(parseInt(logFileText[i + 1])) &&
-        !isNaN(parseInt(logFileText[i + 2])) &&
-        logFileText[i + 3] === ":" &&
-        !isNaN(parseInt(logFileText[i + 4])) &&
-        !isNaN(parseInt(logFileText[i + 5])) &&
-        logFileText[i + 6] === ":" &&
-        !isNaN(parseInt(logFileText[i + 7])) &&
-        !isNaN(parseInt(logFileText[i + 8])) &&
-        logFileText[i + 9] === "]"
+        logFile.text[i] === "[" &&
+        !isNaN(parseInt(logFile.text[i + 1])) &&
+        !isNaN(parseInt(logFile.text[i + 2])) &&
+        logFile.text[i + 3] === ":" &&
+        !isNaN(parseInt(logFile.text[i + 4])) &&
+        !isNaN(parseInt(logFile.text[i + 5])) &&
+        logFile.text[i + 6] === ":" &&
+        !isNaN(parseInt(logFile.text[i + 7])) &&
+        !isNaN(parseInt(logFile.text[i + 8])) &&
+        logFile.text[i + 9] === "]"
       ) {
-        logString = logString + "\n" + logFileText[i];
+        logString = logString + "\n" + logFile.text[i];
       } else {
-        logString = logString + logFileText[i];
+        logString = logString + logFile.text[i];
       }
     }
 
@@ -42,6 +43,8 @@ const LogFile: React.FC<LogFileProps> = ({
 
     setLogs(splitLogs);
   }, []);
+
+  console.log(logFile)
 
   return (
     <div className="LogFile text-left">
