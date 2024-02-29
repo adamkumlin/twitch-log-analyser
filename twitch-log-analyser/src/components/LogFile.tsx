@@ -1,17 +1,15 @@
 import { useEffect } from "react";
-import type { LogFile } from "../types";
+import type { LogFile, LogSettings, Logs } from "../types";
 
 interface LogFileProps {
   logFile: LogFile;
-  logs: string[] | null;
-  setLogs: React.Dispatch<React.SetStateAction<string[] | null>>;
+  logs: Logs;
+  setLogs: React.Dispatch<React.SetStateAction<Logs>>;
+  toggleShowTimestamps: (logs: Logs, showTimestamps: boolean) => void;
+  logSettings: LogSettings;
 }
 
-const LogFile: React.FC<LogFileProps> = ({
-  logFile,
-  logs,
-  setLogs,
-}) => {
+const LogFile: React.FC<LogFileProps> = ({ logFile, logs, setLogs, toggleShowTimestamps, logSettings }) => {
   useEffect(() => {
     let logString: string = "";
 
@@ -36,19 +34,25 @@ const LogFile: React.FC<LogFileProps> = ({
       }
     }
 
-    const splitLogs: string[] = logString
-      .split("\n")
-      .filter((text) => text !== "");
+    const splitLogs: string[] = logString.split("\n").filter((text) => text !== "");
     // Split string by newline character, remove empty values
 
-    setLogs(splitLogs);
+    setLogs((current) => ({
+      ...current,
+      originalLogs: splitLogs,
+    }));
   }, []);
 
-  console.log(logFile)
-
+  toggleShowTimestamps(logs, logSettings.showTimestamps);
+  
   return (
     <div className="LogFile text-left">
-      {logs ? logs.map((log, index) => <p key={index}>{log}</p>) : null}
+      {logs.originalLogs.length > 0 && logs.filteredLogs.length === 0
+        ? logs.originalLogs.map((log, index) => <p key={index}>{log}</p>)
+        : null}
+      {logs.filteredLogs.length > 0
+        ? logs.filteredLogs.map((log, index) => <p key={index}>{log}</p>)
+        : null}
     </div>
   );
 };

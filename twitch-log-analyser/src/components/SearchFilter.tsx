@@ -1,13 +1,11 @@
-import type { SearchMetric, SearchQuery } from "../types";
+import type { Logs, SearchMetric, SearchQuery } from "../types";
 
 interface SearchFilterProps {
   searchQuery: SearchQuery;
   setSearchQuery: React.Dispatch<React.SetStateAction<SearchQuery>>;
-  filterLogs: (
-    logs: string[] | null,
-    searchQuery: SearchQuery
-  ) => void;
-  logs: string[] | null;
+  filterLogs: (logs: Logs, searchQuery: SearchQuery) => void;
+  logs: Logs;
+  setLogs: React.Dispatch<React.SetStateAction<Logs>>;
 }
 
 const SearchFilter: React.FC<SearchFilterProps> = ({
@@ -15,10 +13,22 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
   setSearchQuery,
   filterLogs,
   logs,
+  setLogs,
 }) => {
   function handleSearch(e: React.MouseEvent<HTMLInputElement, MouseEvent>) {
     e.preventDefault();
     filterLogs(logs, searchQuery);
+  }
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.value !== "") {
+      setSearchQuery((current) => ({ ...current, query: e.target.value }));
+    } else {
+      setLogs((current) => ({
+        ...current,
+        filteredLogs: [],
+      }));
+    }
   }
   return (
     <div className="SearchFilter ">
@@ -29,9 +39,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
           placeholder="Search by..."
           className="text-black"
           type="text"
-          onChange={(e) =>
-            setSearchQuery((current) => ({ ...current, query: e.target.value }))
-          }
+          onChange={(e) => handleChange(e)}
         />
         <select
           onChange={(e) =>

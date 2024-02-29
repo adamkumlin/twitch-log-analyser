@@ -1,28 +1,37 @@
 import type { LogSettings } from "../types";
 
 interface ActionsListerProps {
-  logs: string[] | null;
   logSettings: LogSettings;
   setLogSettings: React.Dispatch<React.SetStateAction<LogSettings>>;
 }
 
-const ActionsLister: React.FC<ActionsListerProps> = ({
-  logs,
-  logSettings,
-  setLogSettings,
-}) => {
+const ActionsLister: React.FC<ActionsListerProps> = ({ logSettings, setLogSettings }) => {
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    console.log(e);
-    if (!logSettings.showModActions) {
-      setLogSettings((current) => ({
-        ...current,
-        showModActions: true,
-      }));
+    if (e.target.id === "showModActions") {
+      if (!logSettings.showModActions) {
+        setLogSettings((current) => ({
+          ...current,
+          showModActions: true,
+        }));
+      } else {
+        setLogSettings((current) => ({
+          ...current,
+          showModActions: false,
+        }));
+        return;
+      }
     } else {
-      setLogSettings((current) => ({
-        ...current,
-        showModActions: false,
-      }));
+      if (logSettings.showTimestamps) {
+        setLogSettings((current) => ({
+          ...current,
+          showTimestamps: false,
+        }));
+      } else {
+        setLogSettings((current) => ({
+          ...current,
+          showTimestamps: true,
+        }));
+      }
     }
   }
   return (

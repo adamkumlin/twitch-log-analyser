@@ -21,7 +21,6 @@ const UploadSection: React.FC<UploadSectionProps> = ({
     };
     reader.readAsText(logFile.file as Blob);
   }
-
   return (
     <div className="UploadSection flex flex-row justify-evenly mt-48">
       <div className="bg-gradient-to-b from-fuchsia-700 to-indigo-500 border-2 border-white border-dashed rounded-xl h-80 w-80">

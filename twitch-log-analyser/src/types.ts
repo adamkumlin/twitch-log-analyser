@@ -14,3 +14,8 @@ export type LogSettings = {
   showModActions: boolean;
   showTimestamps: boolean;
 };
+
+export type Logs = {
+  originalLogs: string[];
+  filteredLogs: string[];
+}

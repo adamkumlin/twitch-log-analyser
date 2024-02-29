@@ -1,12 +1,13 @@
-import type { SearchQuery, LogSettings } from "../types";
+import type { SearchQuery, LogSettings, Logs } from "../types";
 import ActionsLister from "./ActionsLister";
 import SearchFilter from "./SearchFilter";
 
 interface AnalysisToolsProps {
   searchQuery: SearchQuery;
   setSearchQuery: React.Dispatch<React.SetStateAction<SearchQuery>>;
-  filterLogs: (logs: string[], searchQuery: SearchQuery) => void;
-  logs: string[] | null;
+  filterLogs: (logs: Logs, searchQuery: SearchQuery) => void;
+  logs: Logs;
+  setLogs: React.Dispatch<React.SetStateAction<Logs>>;
   logSettings: LogSettings;
   setLogSettings: React.Dispatch<React.SetStateAction<LogSettings>>;
 }
@@ -18,6 +19,7 @@ const AnalysisTools: React.FC<AnalysisToolsProps> = ({
   logs,
   logSettings,
   setLogSettings,
+  setLogs,
 }) => {
   return (
     <div className="AnalysisTools">
@@ -27,12 +29,9 @@ const AnalysisTools: React.FC<AnalysisToolsProps> = ({
           filterLogs={filterLogs}
           searchQuery={searchQuery}
           logs={logs}
+          setLogs={setLogs}
         />
-        <ActionsLister
-          logs={logs}
-          logSettings={logSettings}
-          setLogSettings={setLogSettings}
-        />
+        <ActionsLister logSettings={logSettings} setLogSettings={setLogSettings} />
       </form>
     </div>
   );
