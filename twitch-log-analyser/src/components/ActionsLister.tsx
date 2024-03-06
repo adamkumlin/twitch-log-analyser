@@ -1,4 +1,4 @@
-import type { LogSettings } from "../types";
+import type { LogSettings, Logs } from "../types";
 
 interface ActionsListerProps {
   logSettings: LogSettings;

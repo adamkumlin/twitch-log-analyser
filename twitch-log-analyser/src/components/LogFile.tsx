@@ -41,18 +41,16 @@ const LogFile: React.FC<LogFileProps> = ({ logFile, logs, setLogs, toggleShowTim
       ...current,
       originalLogs: splitLogs,
     }));
-  }, []);
 
-  toggleShowTimestamps(logs, logSettings.showTimestamps);
-  
+    toggleShowTimestamps(logs, logSettings.showTimestamps);
+  }, [logSettings]);
+
   return (
     <div className="LogFile text-left">
       {logs.originalLogs.length > 0 && logs.filteredLogs.length === 0
         ? logs.originalLogs.map((log, index) => <p key={index}>{log}</p>)
         : null}
-      {logs.filteredLogs.length > 0
-        ? logs.filteredLogs.map((log, index) => <p key={index}>{log}</p>)
-        : null}
+      {logs.filteredLogs.length > 0 ? logs.filteredLogs.map((log, index) => <p key={index}>{log}</p>) : null}
     </div>
   );
 };

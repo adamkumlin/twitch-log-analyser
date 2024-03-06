@@ -59,22 +59,26 @@ const App: React.FC = () => {
 
       if (logs.filteredLogs.length === 0) {
         for (let log of logs.originalLogs) {
-          const logWithoutTimestamp: string = log.slice(0, 12);
-          logsWithoutTimestamps.push(logWithoutTimestamp);
+          const sliced = log.slice(11);
+          logsWithoutTimestamps.push(sliced);
         }
       } else {
         for (let log of logs.filteredLogs) {
-          const logWithoutTimestamp: string = log.slice(0, 12);
-          logsWithoutTimestamps.push(logWithoutTimestamp);
+          const sliced = log.slice(11);
+          logsWithoutTimestamps.push(sliced);
         }
       }
       setLogs((current) => ({
         ...current,
         filteredLogs: logsWithoutTimestamps,
       }));
+    } else {
+      setLogs((current) => ({
+        ...current,
+        filteredLogs: logs.originalLogs,
+      }));
     }
   }
-  console.log(logs);
   return (
     <div className="App text-center text-white p-4 overflow-x-hidden min-h-full">
       <h1 className="font-mono text-5xl mb-16">{!logFile.text ? "Upload file" : "Analyse"}</h1>
