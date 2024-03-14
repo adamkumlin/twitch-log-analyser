@@ -3,7 +3,6 @@ import type { Logs, SearchMetric, SearchQuery } from "../types";
 interface SearchFilterProps {
   searchQuery: SearchQuery;
   setSearchQuery: React.Dispatch<React.SetStateAction<SearchQuery>>;
-  filterLogs: (logs: Logs, searchQuery: SearchQuery) => void;
   logs: Logs;
   setLogs: React.Dispatch<React.SetStateAction<Logs>>;
 }
@@ -11,13 +10,44 @@ interface SearchFilterProps {
 const SearchFilter: React.FC<SearchFilterProps> = ({
   searchQuery,
   setSearchQuery,
-  filterLogs,
   logs,
   setLogs,
 }) => {
   function handleSearch(e: React.MouseEvent<HTMLInputElement, MouseEvent>) {
     e.preventDefault();
     filterLogs(logs, searchQuery);
+  }
+
+  function filterLogs(logs: Logs, searchQuery: SearchQuery): void {
+    let results: string[] = [];
+
+    if (!searchQuery.query || !searchQuery.metric || !logs.originalLogs) {
+      return;
+    }
+
+    if (searchQuery.metric === "user") {
+      for (let log of logs.originalLogs) {
+        // Split into timestamp, username and rest of message, get the username and remove the colon (last character)
+        const userName: string = log.split(" ")[1].slice(0, -1);
+        if (userName && userName.includes(searchQuery.query)) {
+          results.push(log);
+        }
+      }
+    } else {
+      for (let log of logs.originalLogs) {
+        // Split into timestamp, username and rest of message, get the first three (the timestamp and the username), and join
+        const logDetails = log.split(":").slice(0, 3).join();
+
+        // If log includes query starting from the timestamp and username, i.e. the message plus one to account for the colon
+        if (log.includes(searchQuery.query, logDetails.length + 1)) {
+          results.push(log);
+        }
+      }
+    }
+    setLogs((current) => ({
+      ...current,
+      filteredLogs: results,
+    }));
   }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
