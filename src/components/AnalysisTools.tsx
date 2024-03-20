@@ -24,7 +24,6 @@ const AnalysisTools: React.FC<AnalysisToolsProps> = ({
 }) => {
 
   return (
-    <div className="AnalysisTools">
       <form>
         <SearchFilter
           setSearchQuery={setSearchQuery}
@@ -34,7 +33,6 @@ const AnalysisTools: React.FC<AnalysisToolsProps> = ({
         />
         <ActionsLister logSettings={logSettings} setLogSettings={setLogSettings} setLogs={setLogs} logs={logs} logFile={logFile} />
       </form>
-    </div>
   );
 };
 

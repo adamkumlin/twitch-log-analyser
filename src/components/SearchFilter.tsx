@@ -61,7 +61,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
     }
   }
   return (
-    <div className="SearchFilter ">
+    <>
       <label htmlFor="search">Search</label>
       <div className="flex flex-row place-content-center">
         <input
@@ -90,7 +90,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
         value="Search"
         onClick={(e) => handleSearch(e)}
       />
-    </div>
+    </>
   );
 };
 

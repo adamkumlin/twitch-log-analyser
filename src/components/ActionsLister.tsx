@@ -40,8 +40,9 @@ const ActionsLister: React.FC<ActionsListerProps> = ({ logSettings, setLogSettin
   }
 
     function toggleShowTimestamps(logs: Logs, showTimestamps: boolean): void {
+      let logsWithoutTimestamps: string[] = [];
+
       if (!showTimestamps) {
-        let logsWithoutTimestamps: string[] = [];
 
         if (logs.filteredLogs.length === 0) {
           for (let log of logs.originalLogs) {
@@ -58,6 +59,11 @@ const ActionsLister: React.FC<ActionsListerProps> = ({ logSettings, setLogSettin
           ...current,
           filteredLogs: logsWithoutTimestamps,
         }));
+      } else if (logs.filteredLogs.length !== logs.originalLogs.length && logs.filteredLogs.length > 0){
+        setLogs((current) => ({
+          ...current,
+          filteredLogs: logs.filteredLogs,
+        }));
       } else {
         setLogs((current) => ({
           ...current,
@@ -65,6 +71,8 @@ const ActionsLister: React.FC<ActionsListerProps> = ({ logSettings, setLogSettin
         }));
       }
     }
+
+    console.log(logs)
 
     useEffect(() => {
       let logString: string = "";
@@ -102,7 +110,7 @@ const ActionsLister: React.FC<ActionsListerProps> = ({ logSettings, setLogSettin
     }, [logSettings]);
 
   return (
-    <div className="ActionsLister">
+    <>
       <label htmlFor="showModActions">Show moderator actions</label>
       <input
         id="showModActions"
@@ -117,7 +125,7 @@ const ActionsLister: React.FC<ActionsListerProps> = ({ logSettings, setLogSettin
         checked={logSettings.showTimestamps}
         onChange={(e) => handleChange(e)}
       />
-    </div>
+    </>
   );
 };
 
