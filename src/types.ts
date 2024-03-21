@@ -18,5 +18,5 @@ export type LogSettings = {
 export type Logs = {
   originalLogs: string[];
   filteredLogs: string[];
-  logsWithTimestamps: string[];
+  alteredFilteredLogs: string[];
 }

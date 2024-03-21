@@ -7,17 +7,15 @@ interface SearchFilterProps {
   setLogs: React.Dispatch<React.SetStateAction<Logs>>;
 }
 
-const SearchFilter: React.FC<SearchFilterProps> = ({
-  searchQuery,
-  setSearchQuery,
-  logs,
-  setLogs,
-}) => {
+const SearchFilter: React.FC<SearchFilterProps> = ({ searchQuery, setSearchQuery, logs, setLogs }) => {
   function handleSearch(e: React.MouseEvent<HTMLInputElement, MouseEvent>) {
     e.preventDefault();
     filterLogs(logs, searchQuery);
+    setLogs((current) => ({
+      ...current,
+      alteredFilteredLogs: [],
+    }));
   }
-
   function filterLogs(logs: Logs, searchQuery: SearchQuery): void {
     let results: string[] = [];
 
@@ -53,13 +51,23 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.value !== "") {
       setSearchQuery((current) => ({ ...current, query: e.target.value }));
-    } else {
-      setLogs((current) => ({
-        ...current,
-        filteredLogs: [],
-      }));
     }
   }
+
+  function resetSearch(e: React.MouseEvent<HTMLInputElement, MouseEvent>) {
+    e.preventDefault();
+    setLogs((current) => ({
+      ...current,
+      filteredLogs: [],
+      alteredFilteredLogs: [],
+    }));
+    setSearchQuery((current) => ({
+      ...current,
+      query: "",
+      metric: "user",
+    }));
+  }
+
   return (
     <>
       <label htmlFor="search">Search</label>
@@ -69,6 +77,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
           placeholder="Search by..."
           className="text-black"
           type="text"
+          value={searchQuery.query}
           onChange={(e) => handleChange(e)}
         />
         <select
@@ -84,12 +93,10 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
           <option value={"message"}>Message</option>
         </select>
       </div>
-      <input
-        className="bg-slate-400 text-black"
-        type="submit"
-        value="Search"
-        onClick={(e) => handleSearch(e)}
-      />
+      <input className="bg-slate-400 text-black" type="submit" value="Search" onClick={(e) => handleSearch(e)} />
+      {searchQuery.query !== "" || searchQuery.metric !== "user" ? (
+        <input className="bg-slate-400 text-black" type="button" value="Reset" onClick={(e) => resetSearch(e)} />
+      ) : null}
     </>
   );
 };

@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import type { SearchQuery, LogSettings, Logs, LogFile } from "../types";
 import ActionsLister from "./ActionsLister";
 import SearchFilter from "./SearchFilter";

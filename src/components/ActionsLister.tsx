@@ -9,7 +9,13 @@ interface ActionsListerProps {
   logFile: LogFile;
 }
 
-const ActionsLister: React.FC<ActionsListerProps> = ({ logSettings, setLogSettings, setLogs, logs, logFile }) => {
+const ActionsLister: React.FC<ActionsListerProps> = ({
+  logSettings,
+  setLogSettings,
+  setLogs,
+  logs,
+  logFile,
+}) => {
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.id === "showModActions") {
       if (!logSettings.showModActions) {
@@ -39,75 +45,71 @@ const ActionsLister: React.FC<ActionsListerProps> = ({ logSettings, setLogSettin
     }
   }
 
-    function toggleShowTimestamps(logs: Logs, showTimestamps: boolean): void {
-      let logsWithoutTimestamps: string[] = [];
-
-      if (!showTimestamps) {
-
-        if (logs.filteredLogs.length === 0) {
-          for (let log of logs.originalLogs) {
-            const sliced = log.slice(11);
-            logsWithoutTimestamps.push(sliced);
-          }
-        } else {
-          for (let log of logs.filteredLogs) {
-            const sliced = log.slice(11);
-            logsWithoutTimestamps.push(sliced);
-          }
+  function toggleShowTimestamps(logs: Logs, showTimestamps: boolean): void {
+    let alteredLogs: string[] = [];
+    if (!showTimestamps) {
+      if (logs.filteredLogs.length === 0) {
+        for (let log of logs.originalLogs) {
+          const sliced = log.slice(11);
+          alteredLogs.push(sliced);
         }
-        setLogs((current) => ({
-          ...current,
-          filteredLogs: logsWithoutTimestamps,
-        }));
-      } else if (logs.filteredLogs.length !== logs.originalLogs.length && logs.filteredLogs.length > 0){
-        setLogs((current) => ({
-          ...current,
-          filteredLogs: logs.filteredLogs,
-        }));
       } else {
-        setLogs((current) => ({
-          ...current,
-          filteredLogs: logs.originalLogs,
-        }));
+        for (let log of logs.filteredLogs) {
+          const sliced = log.slice(11);
+          alteredLogs.push(sliced);
+        }
+      }
+    } else {
+      if (logs.filteredLogs.length === 0) {
+        for (let log of logs.originalLogs) {
+          alteredLogs.push(log);
+        }
+      } else {
+        for (let log of logs.filteredLogs) {
+          alteredLogs.push(log);
+        }
+      }
+    }
+    setLogs((current) => ({
+      ...current,
+      alteredFilteredLogs: alteredLogs,
+    }));
+  }
+  
+  useEffect(() => {
+    let logString: string = "";
+
+    let logFileTextLength = logFile.text.length;
+
+    for (let i = 0; i < logFileTextLength; i++) {
+      if (
+        logFile.text[i] === "[" &&
+        !isNaN(parseInt(logFile.text[i + 1])) &&
+        !isNaN(parseInt(logFile.text[i + 2])) &&
+        logFile.text[i + 3] === ":" &&
+        !isNaN(parseInt(logFile.text[i + 4])) &&
+        !isNaN(parseInt(logFile.text[i + 5])) &&
+        logFile.text[i + 6] === ":" &&
+        !isNaN(parseInt(logFile.text[i + 7])) &&
+        !isNaN(parseInt(logFile.text[i + 8])) &&
+        logFile.text[i + 9] === "]"
+      ) {
+        logString = logString + "\n" + logFile.text[i];
+      } else {
+        logString = logString + logFile.text[i];
       }
     }
 
-    console.log(logs)
+    // Split string by newline character, remove empty values
+    const splitLogs: string[] = logString.split("\n").filter((text) => text !== "");
 
-    useEffect(() => {
-      let logString: string = "";
+    setLogs((current) => ({
+      ...current,
+      originalLogs: splitLogs,
+    }));
 
-      let logFileTextLength = logFile.text.length;
-
-      for (let i = 0; i < logFileTextLength; i++) {
-        if (
-          logFile.text[i] === "[" &&
-          !isNaN(parseInt(logFile.text[i + 1])) &&
-          !isNaN(parseInt(logFile.text[i + 2])) &&
-          logFile.text[i + 3] === ":" &&
-          !isNaN(parseInt(logFile.text[i + 4])) &&
-          !isNaN(parseInt(logFile.text[i + 5])) &&
-          logFile.text[i + 6] === ":" &&
-          !isNaN(parseInt(logFile.text[i + 7])) &&
-          !isNaN(parseInt(logFile.text[i + 8])) &&
-          logFile.text[i + 9] === "]"
-        ) {
-          logString = logString + "\n" + logFile.text[i];
-        } else {
-          logString = logString + logFile.text[i];
-        }
-      }
-
-      const splitLogs: string[] = logString.split("\n").filter((text) => text !== "");
-      // Split string by newline character, remove empty values
-
-      setLogs((current) => ({
-        ...current,
-        originalLogs: splitLogs,
-      }));
-
-      toggleShowTimestamps(logs, logSettings.showTimestamps);
-    }, [logSettings]);
+    toggleShowTimestamps(logs, logSettings.showTimestamps);
+  }, [logSettings]);
 
   return (
     <>

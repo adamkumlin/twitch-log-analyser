@@ -16,7 +16,7 @@ const App: React.FC = () => {
   const [logs, setLogs] = useState<Logs>({
     originalLogs: [],
     filteredLogs: [],
-    logsWithTimestamps: [],
+    alteredFilteredLogs: [],
   });
   const [logSettings, setLogSettings] = useState<LogSettings>({
     showModActions: false,
