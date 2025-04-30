@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import type { LogFile, Logs } from "../types";
+import { Logs } from "../lib/types";
 
-interface LogFileProps {
+interface Props {
   logs: Logs;
 }
 
-const LogFile: React.FC<LogFileProps> = ({ logs }) => {
-
+export default function LogFile({ logs }: Props) {
   const [logsToDisplay, setLogsToDisplay] = useState<string[] | null>(null);
 
   useEffect(() => {
@@ -17,13 +16,13 @@ const LogFile: React.FC<LogFileProps> = ({ logs }) => {
     } else {
       setLogsToDisplay(logs.originalLogs);
     }
-  }, [logs])
+  }, [logs]);
 
   return (
     <div className="LogFile text-left">
-      {logsToDisplay ? logsToDisplay.map((log, index) => <p key={index}>{log}</p>) : null}
+      {logsToDisplay
+        ? logsToDisplay.map((log, index) => <p key={index}>{log}</p>)
+        : null}
     </div>
   );
-};
-
-export default LogFile;
+}

@@ -1,21 +1,21 @@
 export type SearchMetric = "user" | "message";
 
-export type LogFile = {
+export interface LogFile {
   file: File | null;
   text: string;
-};
+}
 
-export type SearchQuery = {
+export interface SearchQuery {
   query: string;
   metric: SearchMetric;
-};
+}
 
-export type LogSettings = {
+export interface LogSettings {
   showModActions: boolean;
   showTimestamps: boolean;
-};
+}
 
-export type Logs = {
+export interface Logs {
   originalLogs: string[];
   filteredLogs: string[];
   alteredFilteredLogs: string[];

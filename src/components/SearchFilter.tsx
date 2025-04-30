@@ -1,4 +1,4 @@
-import type { Logs, SearchMetric, SearchQuery } from "../types";
+import type { Logs, SearchMetric, SearchQuery } from "../lib/types";
 
 interface SearchFilterProps {
   searchQuery: SearchQuery;
@@ -7,7 +7,7 @@ interface SearchFilterProps {
   setLogs: React.Dispatch<React.SetStateAction<Logs>>;
 }
 
-const SearchFilter: React.FC<SearchFilterProps> = ({ searchQuery, setSearchQuery, logs, setLogs }) => {
+export default function SearchFilter({ searchQuery, setSearchQuery, logs, setLogs }: SearchFilterProps) {
   function handleSearch(e: React.MouseEvent<HTMLInputElement, MouseEvent>) {
     e.preventDefault();
     filterLogs(logs, searchQuery);
@@ -99,6 +99,4 @@ const SearchFilter: React.FC<SearchFilterProps> = ({ searchQuery, setSearchQuery
       ) : null}
     </>
   );
-};
-
-export default SearchFilter;
+}

@@ -2,9 +2,14 @@ import { useState } from "react";
 import LogFile from "./components/LogFile";
 import UploadSection from "./components/UploadSection";
 import AnalysisTools from "./components/AnalysisTools";
-import type { SearchQuery, LogSettings, LogFile as LogFileT, Logs } from "./types";
+import type {
+  SearchQuery,
+  LogSettings,
+  LogFile as LogFileT,
+  Logs,
+} from "./lib/types";
 
-const App: React.FC = () => {
+export default function App() {
   const [logFile, setLogFile] = useState<LogFileT>({
     file: null,
     text: "",
@@ -22,11 +27,15 @@ const App: React.FC = () => {
     showModActions: false,
     showTimestamps: true,
   });
-  
+
   return (
     <div className="App text-center text-white p-4 overflow-x-hidden min-h-full">
-      <h1 className="font-mono text-5xl mb-16">{!logFile.text ? "Upload file" : "Analyse"}</h1>
-      {!logFile.text ? <UploadSection logFile={logFile} setLogFile={setLogFile} /> : null}
+      <h1 className="font-mono text-5xl mb-16">
+        {!logFile.text ? "Upload file" : "Analyse"}
+      </h1>
+      {!logFile.text ? (
+        <UploadSection logFile={logFile} setLogFile={setLogFile} />
+      ) : null}
       {logFile.text !== "" ? (
         <AnalysisTools
           setLogs={setLogs}
@@ -39,13 +48,7 @@ const App: React.FC = () => {
         />
       ) : null}
 
-      {logFile.text !== "" ? (
-        <LogFile
-          logs={logs}
-        />
-      ) : null}
+      {logFile.text !== "" ? <LogFile logs={logs} /> : null}
     </div>
   );
-};
-
-export default App;
+}

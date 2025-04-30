@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import type { LogFile, LogSettings, Logs } from "../types";
+import { LogFile, LogSettings, Logs } from "../lib/types";
 
-interface ActionsListerProps {
+interface Props {
   logSettings: LogSettings;
   setLogSettings: React.Dispatch<React.SetStateAction<LogSettings>>;
   setLogs: React.Dispatch<React.SetStateAction<Logs>>;
@@ -9,13 +9,13 @@ interface ActionsListerProps {
   logFile: LogFile;
 }
 
-const ActionsLister: React.FC<ActionsListerProps> = ({
+export default function ActionsLister({
   logSettings,
   setLogSettings,
   setLogs,
   logs,
   logFile,
-}) => {
+}: Props) {
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.id === "showModActions") {
       if (!logSettings.showModActions) {
@@ -129,6 +129,4 @@ const ActionsLister: React.FC<ActionsListerProps> = ({
       />
     </>
   );
-};
-
-export default ActionsLister;
+}

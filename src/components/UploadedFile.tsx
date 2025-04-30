@@ -1,10 +1,10 @@
-interface UploadedFileProps {
-  logFile: File | null;
+interface Props {
+  logFile?: File;
   image: string;
   style: string;
 }
 
-const UploadedFile: React.FC<UploadedFileProps> = ({ logFile, image, style }) => {
+export default function UploadedFile({ logFile, image, style }: Props) {
   const now = new Date();
 
   const uploadDateTime: string = now.toLocaleString("default", {
@@ -25,6 +25,4 @@ const UploadedFile: React.FC<UploadedFileProps> = ({ logFile, image, style }) =>
       </div>
     </div>
   );
-};
-
-export default UploadedFile;
+}

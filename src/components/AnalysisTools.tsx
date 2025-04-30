@@ -1,8 +1,8 @@
-import type { SearchQuery, LogSettings, Logs, LogFile } from "../types";
+import { SearchQuery, LogSettings, Logs, LogFile } from "../lib/types";
 import ActionsLister from "./ActionsLister";
 import SearchFilter from "./SearchFilter";
 
-interface AnalysisToolsProps {
+interface Props {
   searchQuery: SearchQuery;
   setSearchQuery: React.Dispatch<React.SetStateAction<SearchQuery>>;
   logs: Logs;
@@ -12,7 +12,7 @@ interface AnalysisToolsProps {
   logFile: LogFile;
 }
 
-const AnalysisTools: React.FC<AnalysisToolsProps> = ({
+export default function AnalysisTools({
   searchQuery,
   setSearchQuery,
   logs,
@@ -20,19 +20,22 @@ const AnalysisTools: React.FC<AnalysisToolsProps> = ({
   setLogSettings,
   setLogs,
   logFile,
-}) => {
-
+}: Props) {
   return (
-      <form>
-        <SearchFilter
-          setSearchQuery={setSearchQuery}
-          searchQuery={searchQuery}
-          logs={logs}
-          setLogs={setLogs}
-        />
-        <ActionsLister logSettings={logSettings} setLogSettings={setLogSettings} setLogs={setLogs} logs={logs} logFile={logFile} />
-      </form>
+    <form>
+      <SearchFilter
+        setSearchQuery={setSearchQuery}
+        searchQuery={searchQuery}
+        logs={logs}
+        setLogs={setLogs}
+      />
+      <ActionsLister
+        logSettings={logSettings}
+        setLogSettings={setLogSettings}
+        setLogs={setLogs}
+        logs={logs}
+        logFile={logFile}
+      />
+    </form>
   );
-};
-
-export default AnalysisTools;
+}

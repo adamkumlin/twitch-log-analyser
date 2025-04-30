@@ -1,15 +1,15 @@
-import type { LogFile } from "../types";
+import { LogFile } from "../lib/types";
 import UploadedFile from "./UploadedFile";
 
-interface UploadSectionProps {
+interface Props {
   logFile: LogFile;
   setLogFile: React.Dispatch<React.SetStateAction<LogFile>>;
 }
 
-const UploadSection: React.FC<UploadSectionProps> = ({
+export default function UploadSection({
   logFile,
   setLogFile,
-}) => {
+}: Props) {
   function readFileText() {
     const reader = new FileReader();
 
@@ -54,6 +54,4 @@ const UploadSection: React.FC<UploadSectionProps> = ({
       />
     </div>
   );
-};
-
-export default UploadSection;
+}
